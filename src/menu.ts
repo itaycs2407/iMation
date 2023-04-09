@@ -1,3 +1,6 @@
+import { copyFiles } from "./copyFiles";
+import { verifyDirectory } from "./helpers/fs.helper";
+
 const figlet = require("figlet");
 const inquirer = require("inquirer");
 
@@ -37,7 +40,6 @@ const questions = [
 ];
 
 inquirer.prompt(questions).then((answers: any) => {
-  console.log(answers);
   const { testToRun, filesDirectory, directoriesDirectory, start } = answers;
   if (!start) {
     console.log("Exiting...");
@@ -45,7 +47,20 @@ inquirer.prompt(questions).then((answers: any) => {
   }
   switch (testToRun) {
     case Choices.CopyFilesToDirectories:
-      console.log("Copying files to directories");
+      if (
+        verifyDirectory(filesDirectory) === false ||
+        verifyDirectory(directoriesDirectory) === false
+      ) {
+        console.log("One of the directories is not valid");
+        return;
+      }
+      console.log(
+        `copy files from ${filesDirectory} to ${directoriesDirectory}`
+      );
+      copyFiles(filesDirectory, directoriesDirectory);
+      console.log(
+        `finished copy files from ${filesDirectory} to ${directoriesDirectory}`
+      );
       break;
     case Choices.Exit:
       console.log("Exiting...");
