@@ -39,7 +39,7 @@ const questions = [
   },
 ];
 
-inquirer.prompt(questions).then((answers: any) => {
+inquirer.prompt(questions).then(async (answers: any) => {
   const { testToRun, filesDirectory, directoriesDirectory, start } = answers;
   if (!start) {
     console.log("Exiting...");
@@ -57,7 +57,7 @@ inquirer.prompt(questions).then((answers: any) => {
       console.log(
         `copy files from ${filesDirectory} to ${directoriesDirectory}`
       );
-      copyFiles(filesDirectory, directoriesDirectory);
+      await copyFiles(filesDirectory, directoriesDirectory);
       console.log(
         `finished copy files from ${filesDirectory} to ${directoriesDirectory}`
       );

@@ -7,7 +7,7 @@ import { ItemData } from "./types/shared";
 const fs = require("fs");
 const path = require("path");
 
-export const copyFiles = (
+export const copyFiles = async (
   sourceFilesDirectory: string,
   sourceDirectoryDirectories: string
 ) => {
@@ -18,6 +18,8 @@ export const copyFiles = (
 
   const FilesData = getItemsData(allFiles, true);
   const DirectoriesData = getItemsData(allDirectories);
+
+  let counter = 0;
 
   for (const file of FilesData) {
     const {
@@ -34,6 +36,7 @@ export const copyFiles = (
 
       if (fileHebrewName === directoryHebrewName) {
         didFindMatch = true;
+        counter++;
         fs.cpSync(filePath, path.resolve(directoryPath, filename));
       }
     }
@@ -42,6 +45,8 @@ export const copyFiles = (
       console.log(`Didn't find match for ${fileHebrewName}`);
     }
   }
+
+  console.log(`Copied ${counter} files`);
 };
 
 const getItemsData = (items: string[], files = false): ItemData[] => {
