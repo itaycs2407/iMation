@@ -14,7 +14,7 @@ const enum Choices {
 const questions = [
   {
     type: "list",
-    message: "Select test to run",
+    message: "Select action to run",
     name: "testToRun",
     choices: [Choices.CopyFilesToDirectories, Choices.Exit],
   },

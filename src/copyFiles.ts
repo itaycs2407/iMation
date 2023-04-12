@@ -25,13 +25,21 @@ export const copyFiles = (
       hebrewName: fileHebrewName,
       name: filename,
     } = file;
+
+    let didFindMatch = false;
+
     for (const directory of DirectoriesData) {
       const { fullPath: directoryPath, hebrewName: directoryHebrewName } =
         directory;
 
       if (fileHebrewName === directoryHebrewName) {
+        didFindMatch = true;
         fs.cpSync(filePath, path.resolve(directoryPath, filename));
       }
+    }
+
+    if (!didFindMatch) {
+      console.log(`Didn't find match for ${fileHebrewName}`);
     }
   }
 };
@@ -53,4 +61,4 @@ const getItemsData = (items: string[], files = false): ItemData[] => {
 };
 
 const extractHebrewName = (name: string) =>
-  name.replace(/[0-9a-zA-Z_\-:\\/]/g, "");
+  name.replace(/[0-9a-zA-Z_\-'":\\/]/g, "");
